@@ -11,8 +11,16 @@ app.use(express.static(__dirname + '/public'))
 const io = socketio(server);
 
 io.on('connect', (socket) => {
+	
+	io.to(socket.id).emit({
+		status: true,
+		message: 'conexão estabelecida com o servidor'
+	});
+	
   socket.on('teste', (res) => {
-    console.log(res);
+    console.log("Mensagem recebida", res);
+		
+		io.to(socket.id).emit(res);
   });
 });
 
